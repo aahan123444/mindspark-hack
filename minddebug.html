@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Form with Mindspark Hack</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            max-width: 1000px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            overflow: hidden;
+        }
+        .form-container {
+            flex: 1;
+            max-width: 500px;
+        }
+        .form-title {
+            text-align: center;
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-out;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 16px;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+            border-color: #ff6f61;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            animation: buttonColorChange 1s infinite;
+        }
+        button:hover {
+            background-color: #e55a48;
+        }
+        .right-container, .left-container {
+            position: absolute;
+            font-size: 40px;
+            font-weight: bold;
+            white-space: nowrap;
+            animation: moveText 5s linear infinite, changeColor 0.5s infinite;
+        }
+
+        .right-container {
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .left-container {
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: moveTextLeft 5s linear infinite, changeColor 0.5s infinite;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes moveText {
+            0% {
+                right: -100%;
+            }
+            100% {
+                right: 100%;
+            }
+        }
+
+        @keyframes moveTextLeft {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        @keyframes changeColor {
+            0% {
+                color: #ff6f61;
+            }
+            25% {
+                color: #ff9e2a;
+            }
+            50% {
+                color: #6a5acd;
+            }
+            75% {
+                color: #32cd32;
+            }
+            100% {
+                color: #ff6f61;
+            }
+        }
+
+        @keyframes buttonColorChange {
+            0% {
+                background-color: #ff6f61; /* Red */
+            }
+            50% {
+                background-color: #32cd32; /* Green */
+            }
+            100% {
+                background-color: #ff6f61; /* Red */
+            }
+        }
+
+        /* Cloud Animation */
+        .clouds {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('https://www.transparenttextures.com/patterns/diamond-dust.png') repeat;
+            opacity: 0.5;
+            animation: moveClouds 20s linear infinite;
+        }
+
+        .lightning {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            width: 0;
+            height: 100%;
+            background-color: white;
+            opacity: 0;
+            animation: lightningStrike 3s infinite;
+        }
+
+        .lightning:before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            width: 3px;
+            height: 30px;
+            background-color: white;
+            transform: translateX(-50%);
+            animation: flash 0.3s infinite;
+        }
+
+        @keyframes moveClouds {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes lightningStrike {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes flash {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Copyright Issues Dialog */
+        .copyright {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: gray;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        /* Pop-up animation */
+        .popup {
+            position: fixed;
+            font-size: 14px;  /* Smaller font size */
+            top: 0;
+            left: 0;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            animation: popupAnimation 0.5s forwards;
+        }
+
+        @keyframes popupAnimation {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="clouds"></div>
+
+<div class="lightning"></div>
+
+<div class="container">
+    <div class="form-container">
+        <h1 class="form-title">Sign Up Form</h1>
+        <form id="signup-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required placeholder="Enter your username">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+<div class="right-container">
+    Mindspark Hack
+</div>
+
+<div class="left-container">
+    Mindspark Hack
+</div>
+
+<!-- Copyright Issues Dialog -->
+<div class="copyright">
+    &copy; 2025 Mindspark Inc. All rights reserved. Copyright issues may apply.
+</div>
+
+<!-- Pop-up -->
+<div class="popup" id="popupMessage">
+    Made by Aahan
+</div>
+
+<script>
+    document.getElementById("signup-form").addEventListener("submit", function(event) {
+        event.preventDefault();
+        
+        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        if (username && email && password) {
+            alert(`Form Submitted!\nUsername: ${username}\nEmail: ${email}`);
+        } else {
+            alert("Please fill out all fields.");
+        }
+    });
+
+    // Add event listener to show the popup on any click at cursor position
+    document.body.addEventListener('click', function(event) {
+        const popup = document.getElementById('popupMessage');
+        
+        // Set popup position based on cursor location
+        popup.style.left = event.pageX + 'px';
+        popup.style.top = event.pageY + 'px';
+        
+        popup.style.display = 'block';
+        
+        // Hide the popup after 2 seconds
+        setTimeout(function() {
+            popup.style.display = 'none';
+        }, 2000);
+    });
+</script>
+
+</body>
+</html>
